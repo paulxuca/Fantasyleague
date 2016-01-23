@@ -1,0 +1,32 @@
+<template name='createTeam'>
+{{> navbar}}
+<div class="container" style="padding-top:3em">
+<div class="row">
+<h2>Create My Team</h2>
+<p>Your team is comprised for 5 laners and 2 substitutes, which can be drafted from anyone on this site. </p>
+
+
+</div>
+</div>
+
+</template>
+
+
+
+<template name='team'>
+{{> navbar}}
+
+
+<div class="container" style="padding-top:3em">
+<div class="row">
+<h2>My Team</h2>
+<p>Your team is your pick of league users, who you can compete in leagues every week.</p>
+<a class="btn btn-success" href="{{pathFor route='createTeam'}}">Create my team</a>
+
+
+
+</div>
+</div>
+
+
+</template>

@@ -2,6 +2,7 @@ Leagues = new Meteor.Collection('leagues');
 Teams = new Meteor.Collection('teams');
 
 
+
 if (Meteor.isClient) {
   Session.setDefault('message', '');
 
@@ -49,6 +50,30 @@ Router.route('/leagues', {
 Router.route('/leaguesCreate', {
   name: 'leaguesCreate',
   template: 'leaguesCreate',
+  onBeforeAction: function(){
+    if(!Meteor.user()){
+      this.render('login');
+    }else{
+      this.next();
+    }
+  }
+});
+
+Router.route('/team', {
+  name: 'team',
+  template: 'team',
+  onBeforeAction: function(){
+    if(!Meteor.user()){
+      this.render('login');
+    }else{
+      this.next();
+    }
+  }
+});
+
+Router.route('/createteam', {
+  name: 'createTeam',
+  template: 'createTeam',
   onBeforeAction: function(){
     if(!Meteor.user()){
       this.render('login');

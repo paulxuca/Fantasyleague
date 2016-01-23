@@ -1,7 +1,7 @@
 if (Meteor.isClient){
 	Template.leaguesCreate.events({
 		'submit #createleague': function (e,t) {
-
+			e.preventDefault();
 			var public = $('input:radio[name="inlineRadioOptions"]:checked').val()
 
 			if (public === 'true'){
@@ -9,21 +9,46 @@ if (Meteor.isClient){
 			}else{
 				public = false
 			}
+			var leaguename = t.find('#leaguename').value;
+			var password = t.find('#leaguepassword').value;
+			if(leaguename != ""){
+				if (public === true){
+					var created = Leagues.insert({
+	            	leaguename: t.find('#leaguename').value,
+	            	players: [Meteor.userId()],
+	            	public: public,
+	            	dateCreated: moment().format('MM/DD/YYYY'),
+	            	creator: Meteor.userId(),
+	            	password: t.find('#leaguepassword').value
+		            });
+				}else{
+					if(password != ""){
+						var created = Leagues.insert({
+		            	leaguename: t.find('#leaguename').value,
+		            	players: [Meteor.userId()],
+		            	public: public,
+		            	dateCreated: moment().format('MM/DD/YYYY'),
+		            	creator: Meteor.userId(),
+		            	password: t.find('#leaguepassword').value
+			            });	
+						}	
+				}
 
-			e.preventDefault();
-            var created = Leagues.insert({
-            	leaguename: t.find('#leaguename').value,
-            	players: [Meteor.userId()],
-            	public: public,
-            	dateCreated: moment().format('MM/DD/YYYY'),
-            	creator: Meteor.userId(),
-            	password: t.find('#leaguepassword').value
-            });
-            var currentPlayer = Meteor.user().profile.leagues
+			}else{
+				Session.set('message', 'Missing League name or Password if private game.');
+			}
+
+			if (leaguename != ""){
+			var currentPlayer = Meteor.user().profile.leagues
             currentPlayer.push(created);
             Meteor.users.update({_id: Meteor.userId()}, {$set:  {'profile.leagues': currentPlayer}});
 
             Router.go('/leagues');
+			}
+
+
+            
+            
 		 }
 
 	});
@@ -61,7 +86,7 @@ if (Meteor.isClient){
 			return Meteor.users.find({'profile.leagues': {"$in": [this._id]}});
 		},
 		isInLeague:function(){
-			return ($.inArray(Meteor.userId(), Leagues.findOne({_id: Router.current().params._id}).players) === -1);
+			return ($.inArray(Meteor.userId(), Leagues.findOne({_id: Router.current().params._id}).players) === -1 && Leagues.findOne({_id: Router.current().params._id}).players.length <= 8);
 		}
 
 
