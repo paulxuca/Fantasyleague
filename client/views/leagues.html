@@ -9,7 +9,7 @@
 <h2>Leagues</h2>
 <p>A league is a group of teams that compete every week for points.</p>
 <a class="btn btn-success" href="{{pathFor route='leaguesCreate'}}">Create a League</a>
-<button class="btn btn-secondary">Join a League</button>
+<a class="btn btn-secondary" href="{{pathFor route='joinleague'}}">Join a League</a>
 
 </div>
 </div>
@@ -17,6 +17,7 @@
 <div class="row" style="margin-top:3em;">
 <div class="col-md-6">
 <h3>Your Leagues</h3>
+<p>These are the leagues you're in.</p>
 	<table class="table table-hover">
 		<thead>
     		<tr>
@@ -27,10 +28,10 @@
     		</thead>
     		<tbody>
     		{{#each myleagues}}
-			    <tr>
-			      <td>Mark</td>
-			      <td>Otto</td>
-			      <td>@mdo</td>
+			    <tr id="myleagues">
+			      <td>{{leaguename}}</td>
+			      <td>{{players.length}}</td>
+			      <td>{{public}}</td>
 			    </tr>
 			    {{/each}}
     		</tbody>
@@ -55,7 +56,7 @@
     			{{#each publicleagues}}
 			    <tr id="publicleagues">
 			      <td>{{leaguename}}</td>
-			      <td></td>
+			      <td>{{players.length}}</td>
 			      <td>{{public}}</td>
 			    </tr>
 			    {{/each}}
@@ -87,6 +88,23 @@
 <label for="leaguename">League name</label>
 <input type="text" id="leaguename" class="form-control" name="leaguename" placeholder="My Awesome League">
 </fieldset>
+<fieldset class="form-group" style="padding-top:1em;">
+<h5>Game Type</h5>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true"> Public
+</label>
+<label class="radio-inline">
+  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false"> Private
+</label>
+</fieldset>
+
+<fieldset class="form-group">
+<label for="leaguepassword">League Password for Private Games</label>
+<input type="text" id="leaguepassword" class="form-control" name="leaguepassword" placeholder="My League's Password">
+</fieldset>
+
+
+
 <button type="submit" class="btn btn-primary">Create</button>
 
 </form>
@@ -103,6 +121,80 @@
 
 <template name='league'><!-- THIS IS EACH LEAGUE PAGE !-->
 {{> navbar}}
+<div class="container" style="padding-top:3em">
+<div class="row">
+<h2>{{leaguename}}</h2>
+<p>Created on: {{dateCreated}}</p>
+<div class="col-md-10">
+
+<table class="table table-hover">
+		<thead>
+    		<tr>
+    		<th>Username</th>
+    		<th>Some Stat</th>
+    		<th>Team Name</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    			{{#each leaguemember}}
+			    <tr id="publicleagues">
+			      <td>{{profile.leagueusername}}</td>
+			      <td></td>
+			      <td>Team Name</td>
+			    </tr>
+			    {{/each}}
+    		</tbody>
+	</table>
+
+
+</div>
+<div class="col-md-2">
+<div class="list-group">
+	{{#if isInLeague}}
+  <button type="button" class="list-group-item" id="joinLeague">Join League</button>
+  	{{/if}}
+  {{#if isOwner}}
+  <button type="button" class="list-group-item" id="deleteLeague">Delete League</button>
+  {{/if}}
+  <button type="button" class="list-group-item">Morbi leo risus</button>
+  <button type="button" class="list-group-item">Porta ac consectetur ac</button>
+  <button type="button" class="list-group-item">Vestibulum at eros</button>
+</div>
+</div>
+</div>
+
+</div>
+
+
+</template>
+
+
+
+<template name='joinleague'>
+{{> navbar}}
+<div class="container" style="padding-top:3em">
+<div class="row">
+
+<h2>Join a League</h2>
+
+<div class="row">
+<div class="col-md-6">
+<h5>Join by League ID</h5>
+<form id="joinLeagueId">
+<fieldset class="form-group">
+<input type="text" id="leagueid" name="leagueid" placeholder="SBsKEtB09x7EPsqsr" class="form-control">
+</fieldset>
+<button type="submit" class="btn btn-primary">Join</button>
+<p>{{message}}</p>
+</form>
+</div>
+
+
+</div>
+
+</div>
+
+</div>
 
 
 </template>

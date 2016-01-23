@@ -14,24 +14,29 @@ if (Meteor.isServer) {
 
             //initarray
 
-            for(var i = 0; i< 23;i++){
+            for(var i = 0; i< 37;i++){
             	constructarray.push(0);
             }
            
             var accountbuilderapicall = 'https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + id + '/ranked?api_key=' + Meteor.settings.private.leaguekey;
             var accountbuildercall = JSON.parse(HTTP.get(accountbuilderapicall, {})['content']);
             var accountbuild = accountbuildercall['champions'];
-            for (var key in accountbuild){
-            	var counter = 0;
-            	for(var key2 in accountbuild[key]){
-            		if(key2 == 'stats'){
-            			for(var key3 in accountbuild[key][key2]){
-            					constructarray[counter] += (accountbuild[key][key2][key3]);
-            					counter++
-            			}
-            	}
-            		}
+            console.log(accountbuild[accountbuild.length - 1]);
+            var counter = 0;
+            for(var key in accountbuild[accountbuild.length - 1]){
+                if(key === 'stats'){
+                    for (var key2 in accountbuild[accountbuild.length - 1][key]){
+                        constructarray[counter] += (accountbuild[accountbuild.length - 1][key][key2]);
+                        counter++
+
+                    }
+                    
+                }
+
             }
+
+
+
             Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': constructarray, 'profile.leagues': []}} );
 
         },
