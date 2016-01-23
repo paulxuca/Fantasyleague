@@ -1,0 +1,58 @@
+
+<template name='login'>
+
+
+<div class="container" style="padding-top:50px;">
+<div class="row">
+<div class="col-xs-4 col-xs-offset-4">
+<h2>Login to League</h2>
+<form id="login-form">
+<fieldset class="form-group">
+	<label for="username">Email</label>
+	<input type="email" name="email" class="form-control" id="email">
+
+	<label for="password">Password</label>
+	<input type="password" name="password" class="form-control" id="password">
+</fieldset>
+<button type="submit" class="btn btn-primary" style="width:100%">Login</button>
+<a href="{{pathFor route= 'register'}}"><p><i>New to League? Register Here</i></p></a>
+</form>
+</div>
+</div>
+</div>
+
+
+
+</template>
+
+
+
+<template name='register'>
+
+
+<div class="container" style="padding-top:50px;">
+<div class="row">
+<div class="col-xs-4 col-xs-offset-4">
+<h2>Register for League</h2>
+<form id="register-form">
+<fieldset class="form-group">
+	<label for="email">Email</label>
+	<input type="email" name="email" class="form-control" id="email">
+
+	<label for="leagueusername">League of Legends Username</label>
+	<input type="text" name="leagueusername" class="form-control" id="leagueusername">
+
+	<label for="password">Password</label>
+	<input type="password" name="password" class="form-control" id="password">
+</fieldset>
+<button type="submit" class="btn btn-primary" style="width:100%">Register</button>
+<a href="{{pathFor route= 'login'}}"><p><i>Already Registered? Login</i></p></a>
+
+</form>
+</div>
+</div>
+</div>
+
+
+
+</template>

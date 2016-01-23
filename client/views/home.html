@@ -1,0 +1,12 @@
+<template name="home">
+{{> navbar}}
+<div class="container homecontainer" >
+<div class="row">
+<h2>Welcome, {{currentUser.profile.leagueusername}}</h2>
+<p>Did you know you've killed {{currentUser.profile.rawData.[7]}} in minions?</p>
+</div>
+
+
+</div>
+
+</template>

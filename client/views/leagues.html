@@ -1,0 +1,108 @@
+<template name="leagues">
+{{> navbar}}
+<div class="container">
+<div class="row">
+
+
+
+<div class="col-md-12" style="padding-top:3em;">
+<h2>Leagues</h2>
+<p>A league is a group of teams that compete every week for points.</p>
+<a class="btn btn-success" href="{{pathFor route='leaguesCreate'}}">Create a League</a>
+<button class="btn btn-secondary">Join a League</button>
+
+</div>
+</div>
+
+<div class="row" style="margin-top:3em;">
+<div class="col-md-6">
+<h3>Your Leagues</h3>
+	<table class="table table-hover">
+		<thead>
+    		<tr>
+    		<th>League Name</th>
+    		<th>Number of Teams</th>
+    		<th>Public</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    		{{#each myleagues}}
+			    <tr>
+			      <td>Mark</td>
+			      <td>Otto</td>
+			      <td>@mdo</td>
+			    </tr>
+			    {{/each}}
+    		</tbody>
+	</table>
+
+
+
+</div>
+
+<div class="col-md-6">
+<h3>Public Leagues</h3>
+<p>These are the newest public leagues created.</p>
+<table class="table table-hover">
+		<thead>
+    		<tr>
+    		<th>League Name</th>
+    		<th>Number of Teams</th>
+    		<th>Public</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    			{{#each publicleagues}}
+			    <tr id="publicleagues">
+			      <td>{{leaguename}}</td>
+			      <td></td>
+			      <td>{{public}}</td>
+			    </tr>
+			    {{/each}}
+    		</tbody>
+	</table>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</template>
+
+<template name='leaguesCreate'>
+{{> navbar}}
+<div class="container" style="padding-top:3em">
+<div class="row">
+<h2>Create a League</h2>
+<div class="col-md-4">
+<form class="createleague" id="createleague">
+<fieldset class="form-group">
+<label for="leaguename">League name</label>
+<input type="text" id="leaguename" class="form-control" name="leaguename" placeholder="My Awesome League">
+</fieldset>
+<button type="submit" class="btn btn-primary">Create</button>
+
+</form>
+</div>
+
+</div>
+</div>
+
+
+
+
+</template>
+
+
+<template name='league'><!-- THIS IS EACH LEAGUE PAGE !-->
+{{> navbar}}
+
+
+</template>
