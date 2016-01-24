@@ -84,7 +84,16 @@ if (Meteor.isClient){
 			return Meteor.users.find({'profile.leagues': {"$in": [this._id]}});
 		},
 		isInLeague:function(){
-			return ($.inArray(Meteor.userId(), Leagues.findOne({_id: Router.current().params._id}).players) === -1 && Leagues.findOne({_id: Router.current().params._id}).players.length <= 8);
+			var currentLeague = Leagues.findOne({_id: Router.current().params._id}).players;
+			return ($.inArray(Meteor.userId(), currentLeague) === -1 && currentLeague.length <= 8);
+		},
+		teamIncomplete:function(){
+			var currentTeam = Teams.findOne({owner: Meteor.userId()});
+			if(currentTeam === undefined){
+
+			}else{
+				return currentTeam.complete !=false;
+			}
 		}
 
 
@@ -109,8 +118,10 @@ if (Meteor.isClient){
 			  Leagues.update({_id: Router.current().params._id}, {$set:{players: currentList}});
 		},
 		'click #teamprofile':function(){
-			console.log('hello');
-			  Router.go('myteam', {_id: Meteor.userId.profile.team});
+			  Router.go('myteam', {_id: Meteor.users.findOne({_id: this._id}).profile.team});
+		},
+		'click #gotoTeam':function(){
+			  Router.go('/team');
 		}
 	});
 

@@ -17,7 +17,12 @@ Template.myteam.helpers({
 
 Template.createTeam.helpers({
 	userCanEdit : function() {
-  		return Teams.findOne({_id: Router.current().params._id}).owner === Meteor.userId();
+		var currentTeam = Teams.findOne({_id: Router.current().params._id});
+		if(currentTeam === undefined){
+
+		}else{
+			return Teams.findOne({_id: Router.current().params._id}).owner === Meteor.userId();
+		}
 },
 	userCanEditTeam : function() {
   		return Teams.findOne({_id: Router.current().params._id}).owner === Meteor.userId() && Teams.findOne({_id: Router.current().params._id}).players.length < 5;
@@ -37,9 +42,10 @@ Template.team.helpers({
 		if(Teams.findOne({owner: Meteor.userId()})){
 			return true;
 		}
-		return false
+			return false
 	},
 	playerinteam:function(){
+		
 		return Teams.findOne({owner: Meteor.userId()}).players;
 	},
 	leagueusername:function(){
@@ -48,7 +54,9 @@ Template.team.helpers({
 	},
 	leaguescore:function(){
 		return Meteor.users.findOne({'profile.rawId': parseInt(this.valueOf())}).profile.score;
-
+	},
+	getTeamName:function(){
+		return Teams.findOne({owner: Meteor.userId()}).teamname;
 	}
 });
 

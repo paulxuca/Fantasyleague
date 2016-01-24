@@ -2,7 +2,7 @@
 {{#if userCanEdit}}
 <div class="container" style="padding-top:3em">
 <div class="row">
-<h2>Team {{owner}}</h2>
+<h2>{{> editableText collection="teams" field="teamname"}}</h2>
 
 <p>Your team is comprised for 5 players, which can be drafted from anyone on this site. </p>
 <h5><span class="label label-pill label-danger">{{showMessage}}</span></h5>
@@ -43,7 +43,7 @@
 <div class="row">
 
 
-<h2>Team {{currentUser.profile.leagueusername}}</h2>
+<h2>{{getTeamName}}</h2>
 <p>Your team is your pick of league users, who you can compete in leagues every week.</p>
 {{#if teamCreated}}
 <a class="btn btn-success" id="createteam">Edit my team</a>
@@ -80,13 +80,7 @@
 
 <template name="myteam">
 {{> navbar}}
-
-
-
 {{> createTeam}}
-
-
-
 </template>
 
 

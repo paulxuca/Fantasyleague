@@ -87,6 +87,7 @@
 <div class="container" style="padding-top:3em">
 <div class="row">
 <h2>Create a League</h2>
+<p>By creating a league, you are also joining this league!</p>
 <div class="col-md-4">
 <form class="createleague" id="createleague">
 <fieldset class="form-group">
@@ -155,10 +156,15 @@
 </div>
 <div class="col-md-2">
 <div class="list-group">
+
+  {{#if teamIncomplete}}
 	{{#if isInLeague}}
   <button type="button" class="list-group-item" id="joinLeague">Join League</button>
   	{{/if}}
-  {{#if isOwner}}
+  {{else}}
+  <button type="button" class="list-group-item btn-secondary" id="gotoTeam">Please Finish your Team!</button>
+  {{/if}}
+   {{#if isOwner}}
   <button type="button" class="list-group-item" id="deleteLeague">Delete League</button>
   {{/if}}
   <!--
