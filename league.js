@@ -47,20 +47,20 @@ Router.route('/', {
   	if(!Meteor.user()){
   		this.render('login');
   	}else{
-      Meteor.call("pullstats", Meteor.user().profile.rawId, function(error, results){
+  		this.next();
+  	}
+  }
+  /*,
+  onRun:function(){
+    Meteor.call("pullstats", Meteor.user().profile.rawId, function(error, results){
         if(error){
           console.log(error);
         }else{
         Session.set('pulled', results);
         Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': Session.get('pulled')[0],'profile.score': Session.get('pulled')[1], 'profile.historicalStats': Session.get('pulled')[2]}});
-
-
         }
-
       });
-  		this.next();
-  	}
-  }
+  }*/
 });
 
 
@@ -165,22 +165,21 @@ Router.route('/league/:_id', {
 });
 
 Router.route('/teams/:_id',{
-name:'myteam',
-template: 'myteam',
-data:function(){
-  var currentTeam = this.params._id;
-  return Teams.findOne({_id: currentTeam});
-},
-onBeforeAction:function () {
-  Session.set('message', null);
-  if (Teams.findOne({_id: this.params._id})){
-    this.next();
+  name:'myteam',
+  template: 'myteam',
+  data:function(){
+    var currentTeam = this.params._id;
+      return Teams.findOne({_id: currentTeam});
+  },
+  onBeforeAction:function () {
+    Session.set('message', null);
+      if (Teams.findOne({_id: this.params._id})){
+        this.next();
 
-  }else{
-    this.render('home');
-  }
-  }
-
+    } else{
+        this.render('home');
+      }
+    }
 });
 
 Router.route('/login', {

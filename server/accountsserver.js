@@ -45,17 +45,24 @@ if (Meteor.isServer) {
             	constructarray.push(0);
             }
            
-            var accountbuilderapicall = 'https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + id + '/ranked?api_key=' + Meteor.settings.private.leaguekey;
+            var accountbuilderapicall = 'https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/' + id + '/ranked?api_key=' + Meteor.settings.private.leaguekey;            
             var accountbuildercall = JSON.parse(HTTP.get(accountbuilderapicall, {})['content']);
             var accountbuild = accountbuildercall['champions'];
             var counter = 0;
-            for(var key in accountbuild[accountbuild.length - 1]){
+            for(var key in accountbuild){
+                if(accountbuild[key]['id'] === 0){
+                    for (var key2 in accountbuild[key]['stats']){
+                        constructarray[counter] += (accountbuild[key]['stats'][key2]);
+                        counter++;
+                    }
+                }
+                /*
                 if(key === 'stats'){
                     for (var key2 in accountbuild[accountbuild.length - 1][key]){
                         constructarray[counter] += (accountbuild[accountbuild.length - 1][key][key2]);
                         counter++
                     }   
-                }
+                }*/
             }
             var setScore = calculateScore(constructarray);
             Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': constructarray, 'profile.score': setScore, 'profile.leagues': [], 'profile.rawId': id, 'profile.team': null, 'profile.historicalStats': [setScore]}} );
