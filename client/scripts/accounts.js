@@ -17,16 +17,12 @@ if (Meteor.isClient){
         dateCreated: moment().format('MM/DD/YYYY'),
         team: null
       }
-      }
+      }//Format this later
 
       Accounts.createUser( options , function(err){
       if( err ){
 
-
       }else{
-
-
-
          Meteor.call("registerLeague", Meteor.user().profile.leagueusername, function(error, results){});
          Router.go('/');
       }
@@ -36,7 +32,6 @@ if (Meteor.isClient){
 		
 	}
 });
-
 
   Template.login.events({
     'submit #login-form':function(e,t){

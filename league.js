@@ -49,8 +49,7 @@ Router.route('/', {
   	}else{
   		this.next();
   	}
-  }
-  /*,
+  },
   onRun:function(){
     Meteor.call("pullstats", Meteor.user().profile.rawId, function(error, results){
         if(error){
@@ -60,7 +59,7 @@ Router.route('/', {
         Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': Session.get('pulled')[0],'profile.score': Session.get('pulled')[1], 'profile.historicalStats': Session.get('pulled')[2]}});
         }
       });
-  }*/
+  }
 });
 
 
