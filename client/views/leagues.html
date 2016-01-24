@@ -1,5 +1,10 @@
 <template name="leagues">
 {{> navbar}}
+{{#if teamincomplete}}
+<div class="alert alert-warning" role="alert">
+  <strong>Warning!</strong> Your team is incomplete. You need 5 people!
+</div>
+{{/if}}
 <div class="container">
 <div class="row">
 
@@ -131,7 +136,7 @@
 		<thead>
     		<tr>
     		<th>Username</th>
-    		<th>Some Stat</th>
+    		<th>League Score</th>
     		<th>Team Name</th>
     		</tr>
     		</thead>
@@ -140,7 +145,7 @@
 			    <tr id="publicleagues">
 			      <td>{{profile.leagueusername}}</td>
 			      <td></td>
-			      <td>Team Name</td>
+			      <td id="teamprofile">Team {{profile.leagueusername}}</td>
 			    </tr>
 			    {{/each}}
     		</tbody>

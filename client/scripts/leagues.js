@@ -45,12 +45,7 @@ if (Meteor.isClient){
 
             Router.go('/leagues');
 			}
-
-
-            
-            
 		 }
-
 	});
 
 
@@ -64,6 +59,9 @@ if (Meteor.isClient){
 
 		myleagues:function(){
 			return Leagues.find({ players: { "$in" : [Meteor.userId()]} });
+		},
+		teamincomplete:function(){
+			return Teams.findOne({owner: Meteor.userId()}).complete === false;
 		}
 	});
 
@@ -109,6 +107,10 @@ if (Meteor.isClient){
 			  currentLeagues.push(Router.current().params._id);
 			  Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.leagues': currentLeagues}});
 			  Leagues.update({_id: Router.current().params._id}, {$set:{players: currentList}});
+		},
+		'click #teamprofile':function(){
+			console.log('hello');
+			  Router.go('myteam', {_id: Meteor.userId.profile.team});
 		}
 	});
 

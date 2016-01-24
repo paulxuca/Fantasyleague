@@ -1,13 +1,35 @@
 <template name='createTeam'>
-{{> navbar}}
+{{#if userCanEdit}}
 <div class="container" style="padding-top:3em">
 <div class="row">
-<h2>Create My Team</h2>
-<p>Your team is comprised for 5 laners and 2 substitutes, which can be drafted from anyone on this site. </p>
+<h2>Team {{owner}}</h2>
 
+<p>Your team is comprised for 5 players, which can be drafted from anyone on this site. </p>
+<h5><span class="label label-pill label-danger">{{showMessage}}</span></h5>
 
+<div class="row" style="padding-top:2em">
+<div class="col-md-4">
+<h4>Search for Players</h4>
+<p>Search for players by League username.</p>
+{{> searchPlayers}}
+</div>
+
+<div class="col-md-8">
+<h4>Team</h4>
+<p>Please input players by Id.</p>
+{{> editableList collection="teams" field="players" userCanEdit=userCanEditTeam editClass="form-control" placeholder="Player Id" editStyle="width:50%" inputClass="form-control" inputStyle="width:50%" allowDuplicates=false}}
 </div>
 </div>
+</div>
+
+<a class="btn btn-primary" id="createTeam">Create Team</a>
+
+</div>
+
+{{else}}
+{{> teamPage}}
+{{/if}}
+
 
 </template>
 
@@ -19,14 +41,63 @@
 
 <div class="container" style="padding-top:3em">
 <div class="row">
-<h2>My Team</h2>
+
+
+<h2>Team {{currentUser.profile.leagueusername}}</h2>
 <p>Your team is your pick of league users, who you can compete in leagues every week.</p>
-<a class="btn btn-success" href="{{pathFor route='createTeam'}}">Create my team</a>
+{{#if teamCreated}}
+<a class="btn btn-success" id="createteam">Edit my team</a>
+{{else}}
+<a class="btn btn-success" id="createteam">Create my team</a>
+{{/if}}
 
+<table class="table table-hover" style="margin-top:2em">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>ID</th>
+      <th>Current Score</th>
+      <th>% Change</th>
+    </tr>
+  </thead>
+  <tbody>
+   {{#each playerinteam}}
+    <tr>
+      <td>{{leagueusername}}</td>
+      <td>{{this}}</td>
+      <td>{{leaguescore}}</td>
+      <td></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
 
 </div>
 </div>
 
+</template>
+
+<template name="myteam">
+{{> navbar}}
+
+
+
+{{> createTeam}}
+
+
+
+</template>
+
+
+<template name='teamPage'>
+<div class="container" style="padding-top:3em">
+	<div class="row">
+		<h2>{{teamname}}</h2>
+		<p>Owner: {{owner}}</p>
+
+
+	</div>
+</div>
 
 </template>

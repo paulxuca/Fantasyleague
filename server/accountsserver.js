@@ -4,6 +4,25 @@ var zip = function(arrays) {
         });
 }
 
+var calculateScore = function(stats){
+        var score = 0;
+        if (stats[0]===0)
+                {
+                    return 0;
+                }
+
+        score = (stats[2]/stats[0]) * 75 + 
+            (stats[3]/stats[0]) * 5 + 
+            (stats[5]/stats[0]) * 0.0005 + 
+            stats [9] *2 + stats[10] *5 + stats[11]* 20 + stats[12]*50 +
+            stats[13] * Math.pow(10,4) + 
+            stats [14]/stats[0] * -8 + 
+            stats[17] /stats[0] * 10 + 
+            stats[21] * 5 + 
+            stats [22]/stats[0] * 3;
+        return (Math.round(score*100))/100;
+        }
+
 if (Meteor.isServer) {
     Meteor.methods({
         registerLeague: function (leagueusername) {
@@ -15,8 +34,9 @@ if (Meteor.isServer) {
             var id = mainreturn['id'];
             var level = mainreturn['summonerLevel'];
 
-            if (level != 30 ){
-            	throw RangeError('level not enough');
+            if (level != 30 || id === undefined ){
+            	throw new Meteor.Error( 500, 'There was an error processing your request' );
+                stop();
             }
 
             //initarray
@@ -37,10 +57,12 @@ if (Meteor.isServer) {
                     }   
                 }
             }
-            Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': constructarray, 'profile.leagues': [], 'profile.rawId': id}} );
+            var setScore = calculateScore(constructarray);
+            Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': constructarray, 'profile.score': setScore, 'profile.leagues': [], 'profile.rawId': id, 'profile.team': null, 'profile.historicalStats': [setScore]}} );
 
         },
         pullstats:function(leagueid){// Need to figure out a way to push current score into the backburner
+            var constructarray = [];
             for(var i = 0; i< 37;i++){
                 constructarray.push(0);
             }
@@ -56,27 +78,12 @@ if (Meteor.isServer) {
                     }   
                 }
             }
-            Meteor.users.update( { _id: Meteor.userId() }, { $set: { 'profile.rawData': constructarray}});
+            var setScore = calculateScore(constructarray);
+            var historical = Meteor.user().profile.score;
+            var historicalArray = Meteor.user().profile.historicalStats;
+            historicalArray.push(historical);
+            return [constructarray, setScore, historicalArray];
 
-        },
-        calculateScore:function(stats){
-
-        var score = 0;
-        if (stats[0]===0)
-                {
-                    return 0;
-                }
-
-        score = (stats[2]/stats[0]) * 75 + 
-            (stats[3]/stats[0]) * 5 + 
-            (stats[5]/stats[0]) * 0.0005 + 
-            stats [9] *2 + stats[10] *5 + stats[11]* 20 + stats[12]*50 +
-            stats[13] * Math.pow(10,4) + 
-            stats [14]/stats[0] * -8 + 
-            stats[17] /stats[0] * 10 + 
-            stats[21] * 5 + 
-            stats [22]/stats[0] * 3;
-        return (Math.round(score*100))/100;
         },
         createSchedule:function(players){
 

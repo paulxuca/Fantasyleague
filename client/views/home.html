@@ -1,9 +1,11 @@
 <template name="home">
 {{> navbar}}
-<div class="container homecontainer" >
+<div class="container homecontainer" style="text-align:center">
 <div class="row">
+<h1 style="font-family: 'Slabo 27px', serif;font-size:100px">Fantasy SoloQ</h1>
 <h2>Welcome, {{currentUser.profile.leagueusername}}</h2>
-<p>Did you know you've killed {{currentUser.profile.rawData.[7]}} in minions?</p>
+<h1 class="display-1">{{currentUser.profile.score}}</h1>
+<p><i>Current Score</i></p>
 </div>
 
 

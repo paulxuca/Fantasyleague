@@ -24,3 +24,9 @@ accounts-base
 accounts-password
 http
 momentjs:moment
+meteorhacks:search-source
+check
+ejson
+aldeed:collection2
+babrahams:editable-list
+chart:chart

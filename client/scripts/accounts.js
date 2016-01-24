@@ -1,12 +1,11 @@
 if (Meteor.isClient){
-
+  Session.setDefault('pulled', false);
 
   Template.register.events({
     'submit #register-form' : function(e, t) {
       e.preventDefault();
       leagueusername = t.find("#leagueusername").value;
       if(Meteor.users.findOne({'profile.leagueusername': leagueusername})){
-        console.log('Username already exists.');
 
       }else{
         var options = {
@@ -14,22 +13,22 @@ if (Meteor.isClient){
       password: t.find('#password').value,
       profile: {
         leagueusername: leagueusername,
-        leagues: []
+        leagues: [],
+        dateCreated: moment().format('MM/DD/YYYY'),
+        team: null
       }
       }
 
       Accounts.createUser( options , function(err){
       if( err ){
-        console.log('registration failed.', err);
 
 
       }else{
-        console.log('success!');
-         Meteor.call("registerLeague", Meteor.user().profile.leagueusername, function(error, results) {
-        }); 
+
+
+
+         Meteor.call("registerLeague", Meteor.user().profile.leagueusername, function(error, results){});
          Router.go('/');
-
-
       }
     });
       
@@ -44,6 +43,7 @@ if (Meteor.isClient){
         e.preventDefault();
         Meteor.loginWithPassword(t.find('#email').value, t.find('#password').value);
         Router.go('/');
+
     }
 
 
