@@ -94,6 +94,10 @@ if (Meteor.isClient){
 			}else{
 				return currentTeam.complete !=false;
 			}
+		},
+		getTeamName:function(){
+			console.log(this_id);
+			//return Teams.findOne({owner: Meteor.userId()}).teamname;
 		}
 
 

@@ -1,6 +1,7 @@
 <template name='createTeam'>
 {{#if userCanEdit}}
 <div class="container" style="padding-top:3em">
+<div class="col-xs-12">
 <div class="row">
 <h2>{{> editableText collection="teams" field="teamname"}}</h2>
 
@@ -25,6 +26,7 @@
 <a class="btn btn-primary" id="createTeam">Create Team</a>
 
 </div>
+</div>
 
 {{else}}
 {{> teamPage}}
@@ -41,6 +43,7 @@
 
 <div class="container" style="padding-top:3em">
 <div class="row">
+<div class="col-xs-12">
 
 
 <h2>{{getTeamName}}</h2>
@@ -73,6 +76,7 @@
 </table>
 
 
+</div>
 </div>
 </div>
 
